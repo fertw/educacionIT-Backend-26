@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<libraryInfos>
+    <libraryInfo home="/home/fernando/.sdkman/candidates/java/25.0.2-tem" version="25.0.2"/>
+    <libraryInfo home="/home/fernando/.sdkman/candidates/java/17.0.18-amzn" version="17.0.18"/>
+    <libraryInfo home="/home/fernando/dev/tools/ides/eclipse/plugins/org.eclipse.justj.openjdk.hotspot.jre.full.linux.x86_64_21.0.10.v20260205-0638" version="21.0.10">
+        <bootpath>
+            <entry path="null"/>
+        </bootpath>
+        <extensionDirs>
+            <entry path="null"/>
+        </extensionDirs>
+        <endorsedDirs>
+            <entry path="null"/>
+        </endorsedDirs>
+    </libraryInfo>
+    <libraryInfo home="/home/fernando/dev/tools/ides/eclipse/plugins/org.eclipse.justj.openjdk.hotspot.jre.full.linux.x86_64_21.0.10.v20260205-0638/jre" version="21.0.10"/>
+</libraryInfos>
