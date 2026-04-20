@@ -1,100 +1,85 @@
-# educacionIT-Backend-26
+# java-Backend
 
-# Java Backend - EducaciónIT
+# Clase 2 – Java Backend
 
-## 🧩 Descripción del curso
+## Etapa 2: Arquitectura y Primeros Endpoints REST
 
-El curso **Java Backend** introduce a los estudiantes en el desarrollo de servicios web y APIs RESTful utilizando el lenguaje Java y el framework Spring Boot.
+---
 
-A lo largo de las clases se aborda tanto la teoría fundamental de los servicios web como la práctica aplicada, mediante la creación de proyectos reales que simulan entornos empresariales.
+### 🎯 Objetivo de la clase
 
-El enfoque está orientado a que el alumno comprenda cómo diseñar, implementar y probar APIs REST, manejando conceptos como métodos HTTP, serialización de datos (JSON/XML), manejo de errores, y estructura de proyectos en Spring Boot.
+Comprender la **arquitectura de una aplicación Spring Boot**, cómo se comunican las capas (Controller → Service → Repository → Model) y cómo se manejan las solicitudes HTTP en una API REST.  
+Implementar los primeros **endpoints del proyecto LimpiezaIT**, incorporando controladores, servicios y repositorios en memoria para probar las operaciones básicas.
 
-## 🎯 Objetivos generales
+---
 
-- Comprender el concepto y funcionamiento de los servicios web y su rol en la comunicación entre aplicaciones.
-- Conocer los principios de REST y los métodos HTTP más utilizados en el desarrollo backend.
-- Aprender a configurar y desarrollar proyectos Java con Spring Boot para crear APIs RESTful.
-- Implementar operaciones CRUD (crear, leer, actualizar, eliminar) sobre recursos.
-- Utilizar herramientas como Postman para probar y documentar APIs.
-- Consolidar los conocimientos a través de un proyecto integrador (API LimpiezaIT) que se desarrolla clase a clase.
+### 🧠 Temas vistos en clase
 
-## 🧱 Estructura modular
+#### 🏗️ Arquitectura Spring Boot
 
-El curso se organiza en **3 módulos**:
+- Estructura en capas: **Controller → Service → Repository → Model**
+- Flujo de una petición REST (del cliente al servidor y viceversa)
+- Responsabilidad de cada capa en la aplicación
 
-### Módulo 1 – Introducción a los servicios web
+#### ⚙️ Anotaciones principales de Spring
 
-Conceptos fundamentales de servicios web, REST, HTTP, serialización, JSON y XML.
-Incluye práctica con Postman y primer ejercicio de API.
+- `@RestController` → Define un controlador REST
+- `@RequestMapping` → Establece la ruta base del recurso
+- `@GetMapping`, `@PostMapping`, `@PutMapping`, `@DeleteMapping` → Vinculan métodos HTTP
 
-### Módulo 2 – Creación de una API REST en Java
+#### 💡 Inversión de Control (IoC) e Inyección de Dependencias (DI)
 
-Configuración de un proyecto con Spring Boot, definición de modelos, controladores, repositorios y servicios.
-Implementación completa del CRUD.
+- **IoC (Inversión de Control):** el framework (Spring) crea y gestiona los objetos (beans)
+- **Contenedor de Spring:** almacena y entrega instancias cuando se necesitan
+- **Ventajas:** código más modular, reutilizable y fácil de mantener
 
-### Módulo 3 – Conceptos avanzados de REST API
+#### 🌐 Desarrollo de endpoints REST en LimpiezaIT
 
-Profundización en la arquitectura REST, buenas prácticas, manejo de errores y pruebas avanzadas con Postman.
-Integración de funcionalidades de búsqueda y refinamiento del proyecto.
+- Creación del **controlador `ProductoController`**
+- Implementación del **servicio `ProductoService`**
+- Repositorio en memoria **`ProductoRepository`** (uso de `ArrayList` / `Map`)
+- Pruebas de la API con **Postman** (`GET`, `POST`, `PUT`, `DELETE`, `BUSCAR`)
 
-## 📚 Clases del Curso
+---
 
-El curso está organizado en 6 clases, cada una en su propia rama:
+### 🧱 Estructura base del proyecto LimpiezaIT
 
-- **[clase-1](../../tree/clase-1)** - Introducción a servicios web y REST
-- **[clase-2](../../tree/clase-2)** - Spring Boot y primeros pasos
-- **[clase-3](../../tree/clase-3)** - Implementación de CRUD
-- **[clase-4](../../tree/clase-4)** - Manejo de errores y validaciones
-- **[clase-5](../../tree/clase-5)** - Pruebas con Postman y buenas prácticas
-- **[clase-6](../../tree/clase-6)** - Proyecto integrador: API LimpiezaIT
+#### 🧩 Controller – `ProductoController.java`
 
-## ⚙️ Metodología
+```java
+@RestController
+@RequestMapping("/productos")
+public class ProductoController {
 
-Cada clase combina:
+    private final ProductoService service;
 
-- **Parte teórica**: explicación de conceptos con apoyo visual y ejemplos.
-- **Parte práctica**: desarrollo de ejercicios y laboratorios guiados.
-- **Proyecto integrador**: trabajo incremental sobre una API real ("LimpiezaIT").
-- **Desafíos y prácticas adicionales**: para reforzar lo aprendido antes de los exámenes.
+    public ProductoController(ProductoService service) {
+        this.service = service;
+    }
 
-## 🚀 Cómo usar este repositorio
+    @GetMapping
+    public List<Producto> getAll() { return service.getAll(); }
 
-Para acceder al contenido de cada clase, cambia a la rama correspondiente:
+    @GetMapping("/{id}")
+    public ResponseEntity<Producto> getById(@PathVariable Long id) {
+        Producto p = service.getById(id);
+        return (p == null) ? ResponseEntity.notFound().build() : ResponseEntity.ok(p);
+    }
 
-```bash
-git checkout clase-1
+    @PostMapping
+    public ResponseEntity<Producto> create(@RequestBody Producto p) {
+        Producto creado = service.create(p);
+        return ResponseEntity.ok(creado);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Producto> update(@PathVariable Long id, @RequestBody Producto p) {
+        Producto actualizado = service.update(id, p);
+        return (actualizado == null) ? ResponseEntity.notFound().build() : ResponseEntity.ok(actualizado);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.delete(id);
+        return ResponseEntity.noContent().build();
 ```
-
-Para volver a la rama principal:
-
-```bash
-git checkout main
-```
-
-## 📋 Requisitos
-
-- Java JDK 21 o superior
-- Spring Boot 3.x
-- IDE (IntelliJ IDEA, Eclipse, o VS Code)
-- Postman (para pruebas de API)
-- Git
-
-## �️ Tecnologías utilizadas
-
-- **Java 21** - Lenguaje de programación
-- **Spring Boot 3.x** - Framework para desarrollo backend
-- **Maven/Gradle** - Gestión de dependencias
-- **JSON/XML** - Formatos de intercambio de datos
-- **Postman** - Pruebas de API
-- **REST** - Arquitectura de servicios web
-
-## �‍💻 Autor
-
-**Lic. Carmine Fernando**  
-Docente de Java Backend  
-[LinkedIn](https://www.linkedin.com/in/carminefernando/) | [EducaciónIT](https://educacionit.com)
-
-## 📄 Licencia
-
-Este proyecto es material educativo para el curso de Java Backend de EducaciónIT.
