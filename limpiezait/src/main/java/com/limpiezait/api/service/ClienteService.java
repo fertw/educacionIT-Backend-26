@@ -4,8 +4,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.limpiezait.api.dto.ProductoDTO;
+import com.limpiezait.api.mapper.ProductoMapper;
 import com.limpiezait.api.model.Cliente;
-import com.limpiezait.api.model.Producto;
 import com.limpiezait.api.repository.ClienteRepository;
 
 @Service
@@ -39,9 +40,9 @@ public class ClienteService {
 	public Cliente comprarProducto(Long clienteId, Long productoId) {
 		Cliente cliente = getClienteById(clienteId);
 		if (cliente != null) {
-			Producto producto = productoService.getProductoById(productoId);
+			ProductoDTO producto = productoService.getProductoById(productoId);
 			if (producto != null) {
-				cliente.getProductosComprados().add(producto);
+				cliente.getProductosComprados().add(ProductoMapper.toEntity(producto));
 				clienteRepository.agregarCliente(cliente); // Actualizar el cliente con el nuevo producto comprado
 				productoService.eliminarProducto(producto); // Eliminar el producto del inventario
 				return cliente;

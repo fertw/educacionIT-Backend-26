@@ -1,85 +1,62 @@
-# java-Backend
+# Clase 3 – Java Backend
 
-# Clase 2 – Java Backend
-
-## Etapa 2: Arquitectura y Primeros Endpoints REST
+## Etapa 3: Serialización, Deserialización y uso de DTO en Spring Boot
 
 ---
 
 ### 🎯 Objetivo de la clase
 
-Comprender la **arquitectura de una aplicación Spring Boot**, cómo se comunican las capas (Controller → Service → Repository → Model) y cómo se manejan las solicitudes HTTP en una API REST.  
-Implementar los primeros **endpoints del proyecto LimpiezaIT**, incorporando controladores, servicios y repositorios en memoria para probar las operaciones básicas.
+Comprender cómo funciona la **serialización y deserialización** de datos en una API REST con Spring Boot,  
+y aplicar el uso de **DTO (Data Transfer Object)** para controlar qué datos se envían y reciben,  
+manteniendo la lógica simple y clara dentro del proyecto **LimpiezaIT**.
 
 ---
 
 ### 🧠 Temas vistos en clase
 
-#### 🏗️ Arquitectura Spring Boot
+#### 📦 Serialización y Deserialización
 
-- Estructura en capas: **Controller → Service → Repository → Model**
-- Flujo de una petición REST (del cliente al servidor y viceversa)
-- Responsabilidad de cada capa en la aplicación
+- **Serialización:** convertir objetos Java en JSON para enviarlos al cliente.
+- **Deserialización:** convertir el JSON recibido en objetos Java que la aplicación pueda manejar.
+- Spring Boot realiza ambos procesos automáticamente mediante la librería **Jackson**.
 
-#### ⚙️ Anotaciones principales de Spring
+#### ⚙️ Librerías de serialización más comunes
 
-- `@RestController` → Define un controlador REST
-- `@RequestMapping` → Establece la ruta base del recurso
-- `@GetMapping`, `@PostMapping`, `@PutMapping`, `@DeleteMapping` → Vinculan métodos HTTP
+| Librería    | Uso principal            | Notas                                       |
+| ----------- | ------------------------ | ------------------------------------------- |
+| **JSONP**   | Estándar Java EE         | Lectura/escritura básica de JSON            |
+| **Jackson** | _Default en Spring Boot_ | Rápida, flexible y muy completa             |
+| **Gson**    | De Google                | Simple, ideal para proyectos pequeños       |
+| **JAXB**    | Para XML                 | Útil en integraciones con sistemas antiguos |
 
-#### 💡 Inversión de Control (IoC) e Inyección de Dependencias (DI)
+#### 🔄 Proceso dentro de Spring Boot
 
-- **IoC (Inversión de Control):** el framework (Spring) crea y gestiona los objetos (beans)
-- **Contenedor de Spring:** almacena y entrega instancias cuando se necesitan
-- **Ventajas:** código más modular, reutilizable y fácil de mantener
+1. El cliente envía un **JSON** en una solicitud HTTP (`@RequestBody`).
+2. Spring Boot lo **deserializa** automáticamente a un objeto Java.
+3. La aplicación procesa el objeto en su capa de servicio.
+4. Spring Boot **serializa** el resultado en formato JSON y lo envía como respuesta.
 
-#### 🌐 Desarrollo de endpoints REST en LimpiezaIT
+#### 🧩 Uso de DTO (Data Transfer Object)
 
-- Creación del **controlador `ProductoController`**
-- Implementación del **servicio `ProductoService`**
-- Repositorio en memoria **`ProductoRepository`** (uso de `ArrayList` / `Map`)
-- Pruebas de la API con **Postman** (`GET`, `POST`, `PUT`, `DELETE`, `BUSCAR`)
+- Un **DTO** es un objeto simple para transportar datos entre capas.
+- Permite controlar qué información se expone o recibe desde la API.
+- En este proyecto se implementa **sin validadores ni mappers**,  
+  realizando el mapeo directo dentro del servicio.
 
 ---
 
 ### 🧱 Estructura base del proyecto LimpiezaIT
 
-#### 🧩 Controller – `ProductoController.java`
+#### 🧾 DTO – `ProductoDTO.java`
 
 ```java
-@RestController
-@RequestMapping("/productos")
-public class ProductoController {
+package com.eit.demo.dto;
 
-    private final ProductoService service;
-
-    public ProductoController(ProductoService service) {
-        this.service = service;
-    }
-
-    @GetMapping
-    public List<Producto> getAll() { return service.getAll(); }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Producto> getById(@PathVariable Long id) {
-        Producto p = service.getById(id);
-        return (p == null) ? ResponseEntity.notFound().build() : ResponseEntity.ok(p);
-    }
-
-    @PostMapping
-    public ResponseEntity<Producto> create(@RequestBody Producto p) {
-        Producto creado = service.create(p);
-        return ResponseEntity.ok(creado);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Producto> update(@PathVariable Long id, @RequestBody Producto p) {
-        Producto actualizado = service.update(id, p);
-        return (actualizado == null) ? ResponseEntity.notFound().build() : ResponseEntity.ok(actualizado);
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        service.delete(id);
-        return ResponseEntity.noContent().build();
+public record ProductoDTO(
+    Long id,
+    String nombre,
+    Double precio,
+    String descripcion,
+    String urlFoto
+) {}
 ```

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.limpiezait.api.model.Producto;
+import com.limpiezait.api.dto.ProductoDTO;
 import com.limpiezait.api.service.ProductoService;
 
 @RestController
@@ -21,17 +21,17 @@ public class ProductoController {
     private ProductoService productoService;
 	
 	@GetMapping
-	public List<Producto> getProductos() {
+	public List<ProductoDTO> getProductos() {
 		return productoService.getProductos();
 	}
 	
 	@PostMapping
-	public Producto agregarProducto(@RequestBody Producto producto) {
+	public ProductoDTO agregarProducto(@RequestBody ProductoDTO producto) {
 		return productoService.agregarProducto(producto);
 	}
 	
 	@DeleteMapping
-	public void eliminarProducto(@RequestBody Producto producto) {
+	public void eliminarProducto(@RequestBody ProductoDTO producto) {
 		productoService.eliminarProducto(producto);
 	}
 	
