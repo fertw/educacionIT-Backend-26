@@ -19,8 +19,8 @@ public class ProductoRepository {
 		return productos;
 	}
 	
-	public void eliminarProducto(Producto producto) {
-		this.productos.remove(producto);
+	public void eliminarProducto(Long id) {
+		this.productos.removeIf(producto -> producto.getId().equals(id));
 	}
 
 }

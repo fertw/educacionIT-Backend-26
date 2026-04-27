@@ -44,7 +44,7 @@ public class ClienteService {
 			if (producto != null) {
 				cliente.getProductosComprados().add(ProductoMapper.toEntity(producto));
 				clienteRepository.agregarCliente(cliente); // Actualizar el cliente con el nuevo producto comprado
-				productoService.eliminarProducto(producto); // Eliminar el producto del inventario
+				productoService.eliminarProducto(productoId); // Eliminar el producto del inventario
 				return cliente;
 			}
 			return cliente;

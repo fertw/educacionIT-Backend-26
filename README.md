@@ -1,62 +1,50 @@
-# Clase 3 – Java Backend
+# Clase 4 – Java Backend
 
-## Etapa 3: Serialización, Deserialización y uso de DTO en Spring Boot
+## Etapa 4: Seguridad y Autenticación en Spring Boot
 
 ---
 
 ### 🎯 Objetivo de la clase
 
-Comprender cómo funciona la **serialización y deserialización** de datos en una API REST con Spring Boot,  
-y aplicar el uso de **DTO (Data Transfer Object)** para controlar qué datos se envían y reciben,  
-manteniendo la lógica simple y clara dentro del proyecto **LimpiezaIT**.
+Comprender cómo proteger una API REST utilizando **Spring Security**,  
+implementando mecanismos de **autenticación y autorización** para restringir el acceso a los endpoints,  
+mediante **Basic Auth**, roles y configuración de seguridad básica.
 
 ---
 
 ### 🧠 Temas vistos en clase
 
-#### 📦 Serialización y Deserialización
+#### 🔐 Introducción a la seguridad en APIs REST
 
-- **Serialización:** convertir objetos Java en JSON para enviarlos al cliente.
-- **Deserialización:** convertir el JSON recibido en objetos Java que la aplicación pueda manejar.
-- Spring Boot realiza ambos procesos automáticamente mediante la librería **Jackson**.
-
-#### ⚙️ Librerías de serialización más comunes
-
-| Librería    | Uso principal            | Notas                                       |
-| ----------- | ------------------------ | ------------------------------------------- |
-| **JSONP**   | Estándar Java EE         | Lectura/escritura básica de JSON            |
-| **Jackson** | _Default en Spring Boot_ | Rápida, flexible y muy completa             |
-| **Gson**    | De Google                | Simple, ideal para proyectos pequeños       |
-| **JAXB**    | Para XML                 | Útil en integraciones con sistemas antiguos |
-
-#### 🔄 Proceso dentro de Spring Boot
-
-1. El cliente envía un **JSON** en una solicitud HTTP (`@RequestBody`).
-2. Spring Boot lo **deserializa** automáticamente a un objeto Java.
-3. La aplicación procesa el objeto en su capa de servicio.
-4. Spring Boot **serializa** el resultado en formato JSON y lo envía como respuesta.
-
-#### 🧩 Uso de DTO (Data Transfer Object)
-
-- Un **DTO** es un objeto simple para transportar datos entre capas.
-- Permite controlar qué información se expone o recibe desde la API.
-- En este proyecto se implementa **sin validadores ni mappers**,  
-  realizando el mapeo directo dentro del servicio.
+- Hasta ahora, cualquier usuario podía consumir nuestros endpoints.
+- La seguridad se incorpora para **verificar quién accede (autenticación)** y **qué puede hacer (autorización)**.
+- Spring Boot integra **Spring Security**, que intercepta todas las solicitudes HTTP.
 
 ---
 
-### 🧱 Estructura base del proyecto LimpiezaIT
+#### 🧩 Autenticación vs Autorización
 
-#### 🧾 DTO – `ProductoDTO.java`
+| Concepto          | Descripción                        | Ejemplo             |
+| ----------------- | ---------------------------------- | ------------------- |
+| **Autenticación** | Verifica la identidad del usuario. | “¿Quién sos?”       |
+| **Autorización**  | Controla qué recursos puede usar.  | “¿Qué podés hacer?” |
 
-```java
-package com.eit.demo.dto;
+📘 En una API REST, esto se maneja a través de **cabeceras HTTP** (`Authorization`).
 
-public record ProductoDTO(
-    Long id,
-    String nombre,
-    Double precio,
-    String descripcion,
-    String urlFoto
-) {}
-```
+---
+
+#### ⚙️ Métodos comunes de autenticación
+
+| Método         | Descripción                                 | Ventajas                | Desventajas                     |
+| -------------- | ------------------------------------------- | ----------------------- | ------------------------------- |
+| **Basic Auth** | Usuario y contraseña codificados en Base64. | Simple, nativo en HTTP. | No cifra datos, requiere HTTPS. |
+
+💡 En esta clase usamos **Basic Auth** para comprender la base de la autenticación en Spring Boot.
+
+---
+
+#### 🔒 Basic Authentication
+
+- Usa el encabezado HTTP `Authorization: Basic base64(user:password)`.
+- Spring Security lo maneja automáticamente, sin necesidad de código adicional.
+- Se recomienda usarlo solo en entornos **con HTTPS** o fines didácticos.

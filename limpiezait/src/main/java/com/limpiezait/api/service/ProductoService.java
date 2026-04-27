@@ -16,9 +16,8 @@ public class ProductoService {
 	@Autowired
 	private ProductoRepository productoRepository;
 
-	public void eliminarProducto(ProductoDTO producto) {
-		Producto productoEntity = ProductoMapper.toEntity(producto);
-		productoRepository.eliminarProducto(productoEntity);
+	public void eliminarProducto(Long id) {
+		productoRepository.eliminarProducto(id);
 	}
 
 	public ProductoDTO agregarProducto(ProductoDTO producto) {
