@@ -30,10 +30,22 @@ public class ProductoController {
 		return productoService.getProductos();
 	}
 	
+	@GetMapping("/api/admin/productos/{id}")
+	public ProductoDTO getProductoAdminById(@PathVariable Long id) {
+		return productoService.getProductoById(id);
+	}
+	
+
+	@GetMapping("/api/admin/productos")
+	public List<ProductoDTO> getProductosAdmin() {
+		return productoService.getProductos();
+	}
+	
 	@GetMapping("/api/public/productos/{id}")
 	public ProductoDTO getProductoById(@PathVariable Long id) {
 		return productoService.getProductoById(id);
 	}
+
 
 	
 	// API protegida para agregar y eliminar productos, solo los usuarios con el rol ADMIN pueden acceder a ellas

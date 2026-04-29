@@ -1,50 +1,31 @@
-# Clase 4 – Java Backend
+# Clase 5 – Java Backend
 
-## Etapa 4: Seguridad y Autenticación en Spring Boot
+## Etapa 5: Autenticación con JWT (JSON Web Token) en Spring Boot
 
 ---
 
 ### 🎯 Objetivo de la clase
 
-Comprender cómo proteger una API REST utilizando **Spring Security**,  
-implementando mecanismos de **autenticación y autorización** para restringir el acceso a los endpoints,  
-mediante **Basic Auth**, roles y configuración de seguridad básica.
+Comprender el funcionamiento del **JWT (JSON Web Token)** como mecanismo de autenticación **stateless** en una API REST con **Spring Boot**, e implementarlo en el proyecto **LimpiezaIT**:
+
+- Emitir un token al autenticarse (`/auth/login`)
+- Validar el token en cada request mediante un **filtro JWT**
+- Restringir endpoints según **roles**
+- Aplicar **`@PreAuthorize`** para control de acceso a nivel de método
 
 ---
 
-### 🧠 Temas vistos en clase
+## 🧠 Teoría y flujo completo
 
-#### 🔐 Introducción a la seguridad en APIs REST
+### ¿Qué es JWT?
 
-- Hasta ahora, cualquier usuario podía consumir nuestros endpoints.
-- La seguridad se incorpora para **verificar quién accede (autenticación)** y **qué puede hacer (autorización)**.
-- Spring Boot integra **Spring Security**, que intercepta todas las solicitudes HTTP.
+Un **JSON Web Token (JWT)** es un **token firmado** (no cifrado) que el servidor genera cuando un usuario se autentica correctamente.
 
----
+- El cliente lo incluye en cada request HTTP mediante el header:
+- El servidor **verifica la firma** del token y **no mantiene sesiones** en memoria (arquitectura _stateless_).
 
-#### 🧩 Autenticación vs Autorización
+#### Estructura de un JWT
 
-| Concepto          | Descripción                        | Ejemplo             |
-| ----------------- | ---------------------------------- | ------------------- |
-| **Autenticación** | Verifica la identidad del usuario. | “¿Quién sos?”       |
-| **Autorización**  | Controla qué recursos puede usar.  | “¿Qué podés hacer?” |
-
-📘 En una API REST, esto se maneja a través de **cabeceras HTTP** (`Authorization`).
-
----
-
-#### ⚙️ Métodos comunes de autenticación
-
-| Método         | Descripción                                 | Ventajas                | Desventajas                     |
-| -------------- | ------------------------------------------- | ----------------------- | ------------------------------- |
-| **Basic Auth** | Usuario y contraseña codificados en Base64. | Simple, nativo en HTTP. | No cifra datos, requiere HTTPS. |
-
-💡 En esta clase usamos **Basic Auth** para comprender la base de la autenticación en Spring Boot.
-
----
-
-#### 🔒 Basic Authentication
-
-- Usa el encabezado HTTP `Authorization: Basic base64(user:password)`.
-- Spring Security lo maneja automáticamente, sin necesidad de código adicional.
-- Se recomienda usarlo solo en entornos **con HTTPS** o fines didácticos.
+- **Header:** indica algoritmo y tipo (`alg`, `typ`)
+- **Payload:** contiene los _claims_ (sub, roles, exp, etc.)
+- **Signature:** es la firma creada con el algoritmo (por ejemplo HS256) y la _secret key_
