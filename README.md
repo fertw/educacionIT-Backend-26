@@ -29,3 +29,4 @@ Un **JSON Web Token (JWT)** es un **token firmado** (no cifrado) que el servidor
 - **Header:** indica algoritmo y tipo (`alg`, `typ`)
 - **Payload:** contiene los _claims_ (sub, roles, exp, etc.)
 - **Signature:** es la firma creada con el algoritmo (por ejemplo HS256) y la _secret key_
+  aaa
