@@ -1,32 +1,21 @@
-# Clase 5 – Java Backend
+# Clase de hoy - LimpiezaIT API
 
-## Etapa 5: Autenticación con JWT (JSON Web Token) en Spring Boot
+## Objetivo de la clase
 
----
-
-### 🎯 Objetivo de la clase
-
-Comprender el funcionamiento del **JWT (JSON Web Token)** como mecanismo de autenticación **stateless** en una API REST con **Spring Boot**, e implementarlo en el proyecto **LimpiezaIT**:
-
-- Emitir un token al autenticarse (`/auth/login`)
-- Validar el token en cada request mediante un **filtro JWT**
-- Restringir endpoints según **roles**
-- Aplicar **`@PreAuthorize`** para control de acceso a nivel de método
+Publicar endpoints REST en una API desarrollada con **Spring Boot**, documentarlos con **Swagger/OpenAPI** y controlar qué métodos se muestran públicamente.
 
 ---
 
-## 🧠 Teoría y flujo completo
+## 1. Modelo de producto
 
-### ¿Qué es JWT?
+Ejemplo de producto utilizado en la API:
 
-Un **JSON Web Token (JWT)** es un **token firmado** (no cifrado) que el servidor genera cuando un usuario se autentica correctamente.
-
-- El cliente lo incluye en cada request HTTP mediante el header:
-- El servidor **verifica la firma** del token y **no mantiene sesiones** en memoria (arquitectura _stateless_).
-
-#### Estructura de un JWT
-
-- **Header:** indica algoritmo y tipo (`alg`, `typ`)
-- **Payload:** contiene los _claims_ (sub, roles, exp, etc.)
-- **Signature:** es la firma creada con el algoritmo (por ejemplo HS256) y la _secret key_
-  aaa
+```json
+{
+  "id": 1,
+  "nombre": "Lavandina",
+  "precio": 1200,
+  "descripcion": "Desinfectante líquido para limpieza general.",
+  "categoria": "Desinfectantes"
+}
+```
