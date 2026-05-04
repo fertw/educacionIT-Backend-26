@@ -1,6 +1,7 @@
 package com.limpiezait.api.repository;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
@@ -21,6 +22,11 @@ public class ProductoRepository {
 	
 	public void eliminarProducto(Long id) {
 		this.productos.removeIf(producto -> producto.getId().equals(id));
+	}
+
+	public void agregarProducto(List<Producto> productosEntity) {
+		this.productos.addAll(productosEntity);
+		
 	}
 
 }

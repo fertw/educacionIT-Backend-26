@@ -31,6 +31,14 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 // Rutas públicas (login y registro)
                 .requestMatchers("/auth/**").permitAll()
+                //Rutas para Swagger UI
+                .requestMatchers(
+                        "/swagger-ui.html",
+                        "/swagger-ui/**",
+                        "/v3/api-docs",
+                        "/v3/api-docs/**",
+                        "/api/public/**"
+                    ).permitAll()
                 // GET de productos: cualquier usuario autenticado
                 .requestMatchers(HttpMethod.GET, "/api/productos/**").hasAnyRole("USER", "ADMIN")
                 .requestMatchers(HttpMethod.GET, "/api/admin/**").hasAnyRole("ADMIN")

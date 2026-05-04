@@ -40,4 +40,11 @@ public class ProductoService {
 
 	}
 
+	public List<ProductoDTO> agregarProducto(List<ProductoDTO> productos) {
+		List<Producto> productosEntity = productos.stream().map(ProductoMapper::toEntity).toList();
+		productoRepository.agregarProducto(productosEntity);
+		return productos;
+		
+	}
+
 }
