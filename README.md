@@ -1,5 +1,4 @@
-# Clase de hoy - LimpiezaIT API
-
+# Clase 6 Swagger/OpenAPI
 ## Objetivo de la clase
 
 Publicar endpoints REST en una API desarrollada con **Spring Boot**, documentarlos con **Swagger/OpenAPI** y controlar qué métodos se muestran públicamente.
